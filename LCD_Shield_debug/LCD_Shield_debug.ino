@@ -5,9 +5,11 @@
 //which button is being pressed.
 
 LiquidCrystal lcd(8,9,4,5,6,7);
-
+int prevValue = 0;
+int currentValue = 0;
 
 void setup() {
+  Serial.begin(115200);
 //  pinMode(A0,INPUT_PULLUP);
 //  pinMode(A1,INPUT_PULLUP);
 //  pinMode(A2,INPUT_PULLUP);
@@ -22,64 +24,18 @@ void setup() {
 }
 
 void loop() {
-  lcd.setCursor(0,0);
-  lcd.print(map(analogRead(A0),0,1023,0,255));
-  delay(1000);
-  lcd.clear();
+  if(anyButton()) {
+    updateLCD();
+    //rolling value
+    prevValue = currentValue;
+    currentValue = analogRead(A0);
+    //double plot
+    Serial.print(map(currentValue,0,1023,0,12));
+    Serial.print(" ");
+    Serial.println(map(prevValue,0,1023,0,12)); 
+  }
+  else {
+    lcd.clear();
+  }
 }
 
-//void loop() {
-//  // put your main code here, to run repeatedly:
-//  if(!digitalRead(A0)) {
-//    lcd.setCursor(3,0);
-//    lcd.print("1");
-//  }
-//  else {
-//    lcd.setCursor(3,0);
-//    lcd.print("0");
-//  }
-//  if(!digitalRead(A1)) {
-//    lcd.setCursor(8,0);
-//    lcd.print("1");
-//  }
-//  else {
-//    lcd.setCursor(8,0);
-//    lcd.print("0");
-//  }
-//  
-//  if(!digitalRead(A2)) {
-//    lcd.setCursor(13,0);
-//    lcd.print("1");
-//  }
-//  else {
-//    lcd.setCursor(13,0);
-//    lcd.print("0");
-//  }
-//  
-//  if(!digitalRead(A3)) {
-//    lcd.setCursor(3,1);
-//    lcd.print("1");
-//  }
-//  else {
-//    lcd.setCursor(3,1);
-//    lcd.print("0");
-//  }
-//
-//  if(!digitalRead(A4)) {
-//    lcd.setCursor(8,1);
-//    lcd.print("1");
-//  }
-//  else {
-//    lcd.setCursor(8,1);
-//    lcd.print("0");
-//  }
-//
-//  if(!digitalRead(A5)) {
-//    lcd.setCursor(13,1);
-//    lcd.print("1");
-//  }
-//  else {
-//    lcd.setCursor(13,1);
-//    lcd.print("0");
-//  }
-//}
