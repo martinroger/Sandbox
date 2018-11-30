@@ -30,9 +30,11 @@ void loop() {
     prevValue = currentValue;
     currentValue = analogRead(A0);
     //double plot
-    Serial.print(map(currentValue,0,1023,0,12));
-    Serial.print(" ");
-    Serial.println(map(prevValue,0,1023,0,12)); 
+    if(currentValue != prevValue) {
+      Serial.print(map(currentValue,0,1023,1,1280));
+      Serial.print(" ");
+      Serial.println(map(prevValue,0,1023,1,640));
+    } 
   }
   else {
     lcd.clear();
