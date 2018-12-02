@@ -1,6 +1,6 @@
-//#include <max6675.h>
+#include <max6675.h>
 
-#include <Adafruit_MAX31855.h>
+//#include <Adafruit_MAX31855.h>
 
 
 #include <SPI.h>
@@ -12,8 +12,8 @@
 
 //create thermocouple object
 
-Adafruit_MAX31855 thermocouple(MAXCLK,SS,MAXDO);
-//MAX6675 thermocouple(MAXCLK,SS,MAXDO);
+//Adafruit_MAX31855 thermocouple(MAXCLK,SS,MAXDO);
+MAX6675 thermocouple(MAXCLK,SS,MAXDO);
 
 void setup() {
   Serial.begin(9600);

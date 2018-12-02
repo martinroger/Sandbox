@@ -1,6 +1,5 @@
-//#include <max6675.h>
+#include <SparkFunMAX31855k.h>
 
-#include <Adafruit_MAX31855.h>
 
 
 #include <SPI.h>
@@ -11,8 +10,8 @@
 #define SS 6 //Slave select from D6 to CS
 
 //create thermocouple object
-
-Adafruit_MAX31855 thermocouple(MAXCLK,SS,MAXDO);
+SparkFunMAX31855k thermocouple(6,2,3);
+//Adafruit_MAX31855 thermocouple(MAXCLK,SS,MAXDO);
 //MAX6675 thermocouple(MAXCLK,SS,MAXDO);
 
 void setup() {
@@ -26,7 +25,7 @@ void loop() {
 //  Serial.print("Measured: ");
 //  Serial.println(thermocouple.readInternal());
 //  Serial.print("C=");
-   Serial.println(thermocouple.readCelsius());
+   Serial.println(thermocouple.readTempC());
   //Serial.println(thermocouple.readError());
 
   delay(1000);
