@@ -17,9 +17,9 @@
 #define SD_CS 53
 
 //The MAX breakout will be on a different physical SPI because of the Enable on Catalex
-#define MAX_DO 6
-#define MAX_CLK 7
-#define MAX_CS 5
+#define MAX_DO 33
+#define MAX_CLK 35
+#define MAX_CS 31
 
 //Initialise global variable
 boolean recording_active = false;

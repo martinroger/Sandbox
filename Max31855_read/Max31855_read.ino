@@ -8,9 +8,9 @@
 #include <SPI.h>
 
 
-#define MAXDO 3 //corresponds to MISO output on header, connects to DO
-#define MAXCLK 4 //clock on ICSP header to CLK
-#define SS 2 //Slave select from D6 to CS
+#define MAXDO 6 //corresponds to MISO output on header, connects to DO
+#define MAXCLK 7 //clock on ICSP header to CLK
+#define SS 5 //Slave select from D6 to CS
 
 //create thermocouple object
 
