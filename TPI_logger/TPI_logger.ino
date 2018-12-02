@@ -23,6 +23,7 @@
 
 //Initialise global variable
 boolean recording_active = false;
+boolean autonomous_mode = false;
 String filename = "Log_";
 unsigned long last_read = 0;
 unsigned long t_offset = 0;
@@ -38,7 +39,7 @@ MAX31855 thermocouple(MAX_CLK, MAX_CS, MAX_DO);
 void setup() {
 
   //Assign #13 to be blinking when it is recording
-  //pinMode(13, OUTPUT);
+  pinMode(13, OUTPUT);
 
   //Start up the serial ports
   Serial.begin(9600);
@@ -48,11 +49,12 @@ void setup() {
   thermocouple.begin();
 
   //Hang operations until some form of Serial communication is established on either stream
-  while (!Serial || !Serial2) {
+  while (!Serial || !Serial2 || autonomous_mode) {
     //Quick time-out in case the system has to be fully autonomous
     //Note that it will give 30 more seconds before moving on with naming
     if (millis() > 30000) {
       recording_active = true;
+      autonomous_mode = true;
       t_offset = millis();
       break;
     }
@@ -70,33 +72,34 @@ void setup() {
   Serial2.println("Card OK");
 
   int i = 0;
-  Serial.println("Provide prefix: ");
-  Serial2.println("Provide prefix: ");
-  //Wait for something to come on either serial for another 30 seconds
-  while ((Serial.available() == 0) && (Serial2.available() == 0)) {
-    //Print some cheeky dots
-    Serial.print('.');
-    Serial2.print('.');
-    delay(1000);
-    //if a minute has elapsed since start...
-    if (millis() > 60000) {
-      Serial.println('.');
-      Serial2.println('.');
-      Serial.println("Default name selected");
-      Serial2.println("Default name selected");
-      recording_active = true; //Auto-start because lack of response but all green lights
-      t_offset = millis();
-      break;
+  if (!autonomous_mode) {
+    Serial.println("Provide prefix: ");
+    Serial2.println("Provide prefix: ");
+    //Wait for something to come on either serial for another 30 seconds
+    while ((Serial.available() == 0) && (Serial2.available() == 0)) {
+      //Print some cheeky dots
+      Serial.print('.');
+      Serial2.print('.');
+      delay(1000);
+      //if a minute has elapsed since start...
+      if (millis() > 60000) {
+        Serial.println('.');
+        Serial2.println('.');
+        Serial.println("Default name selected");
+        Serial2.println("Default name selected");
+        recording_active = true; //Auto-start because lack of response but all green lights
+        t_offset = millis();
+        break;
+      }
+    }
+    //If the user actually inputs something on one of the two channels
+    if ((Serial.available() > 0)) {
+      filename = Serial.readStringUntil('\n');
+    }
+    if ((Serial2.available() > 0)) {
+      filename = Serial2.readStringUntil('\n');
     }
   }
-  //If the user actually inputs something on one of the two channels
-  if ((Serial.available() > 0)) {
-    filename = Serial.readStringUntil('\n');
-  }
-  if ((Serial2.available() > 0)) {
-    filename = Serial2.readStringUntil('\n');
-  }
-
   //Check if the file exists. If it does, just increment the number. Careful with the number of characters !
   while (SD.exists(filename + i + ".log")) {
     i = i + 1;
@@ -144,10 +147,12 @@ void loop() {
       }
       else {
         //If the recording is fine
+        digitalWrite(13, HIGH);
         LOG.print(last_read - t_offset);
         LOG.print(' ');
         LOG.println(thermocouple.getTemperature());
         LOG.close();
+        digitalWrite(13, LOW);
         Serial.print(last_read - t_offset);
         Serial.print(' ');
         Serial.println(thermocouple.getTemperature());
