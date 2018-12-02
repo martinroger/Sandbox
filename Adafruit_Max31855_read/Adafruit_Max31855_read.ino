@@ -8,7 +8,7 @@
 
 #define MAXDO 50 //corresponds to MISO output on header, connects to DO
 #define MAXCLK 52 //clock on ICSP header to CLK
-#define SS 6 //Slave select from D6 to CS
+#define SS 53 //Slave select from D6 to CS
 
 //create thermocouple object
 
@@ -19,6 +19,7 @@ void setup() {
   Serial.begin(9600);
   // put your setup code here, to run once:
   delay(1000);
+  thermocouple.begin();
 
 }
 

@@ -1,4 +1,4 @@
-#include <MAX31855.h>
+#include "MAX31855.h"
 
 //#include <max6675.h>
 
@@ -8,9 +8,9 @@
 #include <SPI.h>
 
 
-#define MAXDO 50 //corresponds to MISO output on header, connects to DO
-#define MAXCLK 52 //clock on ICSP header to CLK
-#define SS 6 //Slave select from D6 to CS
+#define MAXDO 3 //corresponds to MISO output on header, connects to DO
+#define MAXCLK 4 //clock on ICSP header to CLK
+#define SS 2 //Slave select from D6 to CS
 
 //create thermocouple object
 
@@ -40,7 +40,7 @@ if(error ==0) {
    //Serial.println((float)thermocouple.readCelsius());
   //Serial.println(thermocouple.readError());
 
-  delay(500);
+  delay(1000);
   // put your main code here, to run repeatedly:
 
 }
