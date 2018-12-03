@@ -20,16 +20,17 @@ MAX6675 TC(MAX_SCK, MAX_CS, MAX_DO);
 
 double max_T = 0.00;
 int interval = 250;
-double delta[6] = {0.0,0.0,0.0,0.0,0.0,0.0};
+double delta[8] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
 unsigned long last_read = 0;
 double T = 0;
 double previous_T = 0;
 int i = 0;
 double avg_delta;
 
+
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(115200);
   lcd.begin(16, 2);
   pinMode(MAX_VCC, OUTPUT);
   pinMode(MAX_GND, OUTPUT);
@@ -54,19 +55,22 @@ void loop() {
   lcd.print('/');
   max_T = max(T, max_T);
   lcd.print((int)max_T);
-  for(i=0;i<=4;i++) {
+  for(i=0;i<=6;i++) {
     delta[i] = delta[i+1];
   }
-  delta[5]=(T-previous_T)/(interval/1000.0);
+  //delta[7]=(T-previous_T)/(interval/1000.0);
+  delta[7]=(T-previous_T)/(interval/1000.0);
   lcd.setCursor(6,1);
+  
   avg_delta = 0.0;
-  for(i=0;i<=5;i++) {
+  for(i=0;i<=7;i++) {
     //
 avg_delta = avg_delta+(delta[i]);
   }
-  //avg_delta = sqrt(avg_delta/6);
-  avg_delta = (avg_delta/6);
-  lcd.print(avg_delta);
+  //avg_delta = sqrt(avg_delta/8);
+  avg_delta = (avg_delta/8);
+  lcd.print(abs(avg_delta));
+  
   previous_T = T;
   
 
