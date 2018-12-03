@@ -42,7 +42,7 @@ void setup() {
   pinMode(13, OUTPUT);
 
   //Start up the serial ports
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial2.begin(9600);
 
   //Start up the thermocouple reader
@@ -141,9 +141,9 @@ void loop() {
         LOG.print("TC Error: ");
         LOG.println(TC_error);
         LOG.close();
-        Serial.println("TC Error: " + TC_error);
-        Serial2.println("TC Error: " + TC_error);
-        recording_active = false;
+        Serial.println("Measurement Error: " + TC_error);
+        Serial2.println("Measurement Error: " + TC_error);
+        //recording_active = false;
       }
       else {
         //If the recording is fine
