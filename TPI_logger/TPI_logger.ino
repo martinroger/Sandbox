@@ -1,6 +1,6 @@
 #include <SPI.h>
 #include <SD.h>
-//The card is set to 3.3V
+//The card is set to 3.3V, though with batteries it might not be enough
 #include <MAX31855.h>
 //Uncomment to use the MAX6675 thermocouple interface. Watch out for supply voltage
 //#include <max6675.h>
@@ -52,7 +52,7 @@ void setup() {
   while (!Serial || !Serial2 || autonomous_mode) {
     //Quick time-out in case the system has to be fully autonomous
     //Note that it will give 30 more seconds before moving on with naming
-    if (millis() > 30000) {
+    if (millis() > 45000) {
       recording_active = true;
       autonomous_mode = true;
       t_offset = millis();
