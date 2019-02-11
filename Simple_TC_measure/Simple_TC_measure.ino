@@ -19,7 +19,7 @@ LiquidCrystal lcd(LCD_RS, LCD_ENABLE, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 MAX6675 TC(MAX_SCK, MAX_CS, MAX_DO);
 
 double max_T = 0.00;
-int interval = 250;
+int interval = 375;
 double delta[8] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
 unsigned long last_read = 0;
 double T = 0;
